@@ -67,7 +67,8 @@ public class SqlBatchBuildUtil {
                 // s*:替换大部分空白字符，不限于空格
                 String[] items = line.replaceAll("\\s*", "").split(",");
                 if (items.length < 3) {
-                    errorLineNumbers.add(Integer.toString(lineNumber + 1));
+                    lineNumber++;
+                    errorLineNumbers.add(Integer.toString(lineNumber));
                     continue;
                 }
                 String optType = items[0].toUpperCase();
@@ -90,6 +91,7 @@ public class SqlBatchBuildUtil {
                         errorLineNumbers.add(String.valueOf(dOrDTO.getErrorLineNumber()));
                     resultSql.append(dOrDTO.getSql());
                 }
+                lineNumber++;
             }
             // SQL结果写入文件
             FileWriter fw = null;
