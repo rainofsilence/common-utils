@@ -77,19 +77,20 @@ public class SqlBatchBuildUtil {
                     OperationResultDTO iOrDTO = ins.buildSql(items, lineNumber);
                     if (iOrDTO.getErrorLineNumber() != null)
                         errorLineNumbers.add(String.valueOf(iOrDTO.getErrorLineNumber()));
-                    resultSql.append(iOrDTO.getSql());
+                    if (iOrDTO.getSql() != null) resultSql.append(iOrDTO.getSql());
                 } else if (OptTypeEnum.UPDATE.getCode().equals(optType)) {
                     Operation upd = new UpdOperation();
                     OperationResultDTO uOrDTO = upd.buildSql(items, lineNumber);
                     if (uOrDTO.getErrorLineNumber() != null)
                         errorLineNumbers.add(String.valueOf(uOrDTO.getErrorLineNumber()));
-                    resultSql.append(uOrDTO.getSql());
+                    if (uOrDTO.getSql() != null) resultSql.append(uOrDTO.getSql());
                 } else if (OptTypeEnum.DELETE.getCode().equals(optType)) {
                     Operation del = new DelOperation();
                     OperationResultDTO dOrDTO = del.buildSql(items, lineNumber);
                     if (dOrDTO.getErrorLineNumber() != null)
                         errorLineNumbers.add(String.valueOf(dOrDTO.getErrorLineNumber()));
-                    resultSql.append(dOrDTO.getSql());
+                    if (dOrDTO.getSql() != null)
+                        resultSql.append(dOrDTO.getSql());
                 }
                 lineNumber++;
             }

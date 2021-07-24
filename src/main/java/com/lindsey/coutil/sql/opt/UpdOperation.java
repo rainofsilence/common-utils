@@ -15,7 +15,7 @@ public class UpdOperation extends Operation {
             return result;
         }
         // append header
-        sb.append(" update ").append(items[1]).append(" set ");
+        sb.append("update ").append(items[1]).append(" set ");
         // append col
         for (int i = 3; i < items.length; i++) {
             String col = updateSqlColBuild(items[i]);
