@@ -8,17 +8,18 @@ public class UpdOperation extends Operation {
     @Override
     public OperationResultDTO buildSql(String[] items, int lineNumber) {
         OperationResultDTO result = new OperationResultDTO();
-        StringBuilder sb = new StringBuilder();
+        // 检验是否有col
         if (items.length < 4) {
             Integer errorLineNumber = lineNumber + 1;
             result.setErrorLineNumber(errorLineNumber);
             return result;
         }
+        StringBuilder sb = new StringBuilder();
         // append header
         sb.append("update ").append(items[1]).append(" set ");
         // append col
         for (int i = 3; i < items.length; i++) {
-            String col = updateSqlColBuild(items[i]);
+            String col = buildSqlCol(items[i]);
             if (col == null) {
                 Integer errorLineNumber = lineNumber + 1;
                 result.setErrorLineNumber(errorLineNumber);
@@ -29,7 +30,7 @@ public class UpdOperation extends Operation {
             if (i == (items.length - 1)) sb.deleteCharAt(sb.length() - 2);
         }
         // append where
-        String where = updateSslWhereBuild(items[2]);
+        String where = buildSqlWhere(items[2]);
         if (where == null) {
             Integer errorLineNumber = lineNumber + 1;
             result.setErrorLineNumber(errorLineNumber);
@@ -46,7 +47,7 @@ public class UpdOperation extends Operation {
      * @param col
      * @return
      */
-    private String updateSqlColBuild(String col) {
+    private String buildSqlCol(String col) {
         StringBuilder sb = new StringBuilder();
         String[] cols = col.split("::");
         String colType = cols[0].toUpperCase();
@@ -69,7 +70,7 @@ public class UpdOperation extends Operation {
      * @param where
      * @return
      */
-    private String updateSslWhereBuild(String where) {
+    private String buildSqlWhere(String where) {
         StringBuilder sb = new StringBuilder();
         String[] wheres = where.split("::");
         String keyType = wheres[0].toUpperCase();
