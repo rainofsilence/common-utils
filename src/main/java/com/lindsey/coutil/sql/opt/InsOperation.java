@@ -6,6 +6,10 @@ import com.lindsey.coutil.sql.dto.OperationResultDTO;
 import com.lindsey.coutil.sql.enums.ColTypeEnum;
 import com.lindsey.coutil.sql.enums.KeyTypeEnum;
 
+/**
+ * @author LindseyCheung
+ * @version 1.0.1
+ */
 public class InsOperation extends Operation {
 
     private static final SnowflakeGenerator snowflakeGenerator = new SnowflakeGenerator();
@@ -28,7 +32,7 @@ public class InsOperation extends Operation {
         InsColResultDTO keyResult = buildSqlKey(items[2]);
         if (keyResult.getColName() == null
                 && !KeyTypeEnum.AUTO_INCREMENT.getCode().equals(keyResult.getColType())) {
-            result.setErrorLineNumber( lineNumber + 1);
+            result.setErrorLineNumber(lineNumber + 1);
             return result;
         }
         if (!KeyTypeEnum.AUTO_INCREMENT.getCode().equals(keyResult.getColType())) {
