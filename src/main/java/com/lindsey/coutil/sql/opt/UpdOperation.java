@@ -10,8 +10,7 @@ public class UpdOperation extends Operation {
         OperationResultDTO result = new OperationResultDTO();
         // 检验是否有col
         if (items.length < 4) {
-            Integer errorLineNumber = lineNumber + 1;
-            result.setErrorLineNumber(errorLineNumber);
+            result.setErrorLineNumber(lineNumber + 1);
             return result;
         }
         StringBuilder sb = new StringBuilder();
@@ -21,8 +20,7 @@ public class UpdOperation extends Operation {
         for (int i = 3; i < items.length; i++) {
             String col = buildSqlCol(items[i]);
             if (col == null) {
-                Integer errorLineNumber = lineNumber + 1;
-                result.setErrorLineNumber(errorLineNumber);
+                result.setErrorLineNumber(lineNumber + 1);
                 return result;
             }
             sb.append(col);
@@ -32,8 +30,7 @@ public class UpdOperation extends Operation {
         // append where
         String where = buildSqlWhere(items[2]);
         if (where == null) {
-            Integer errorLineNumber = lineNumber + 1;
-            result.setErrorLineNumber(errorLineNumber);
+            result.setErrorLineNumber(lineNumber + 1);
             return result;
         }
         sb.append(where);

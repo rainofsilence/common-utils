@@ -1,19 +1,21 @@
 package com.lindsey.coutil.sql.opt;
 
-import cn.hutool.core.lang.Snowflake;
+import cn.hutool.core.lang.generator.SnowflakeGenerator;
 import com.lindsey.coutil.sql.dto.InsColResultDTO;
 import com.lindsey.coutil.sql.dto.OperationResultDTO;
 import com.lindsey.coutil.sql.enums.ColTypeEnum;
 import com.lindsey.coutil.sql.enums.KeyTypeEnum;
 
 public class InsOperation extends Operation {
+
+    private static final SnowflakeGenerator snowflakeGenerator = new SnowflakeGenerator();
+
     @Override
     public OperationResultDTO buildSql(String[] items, int lineNumber) {
         OperationResultDTO result = new OperationResultDTO();
         // 检验是否有col
         if (items.length < 4) {
-            Integer errorLineNumber = lineNumber + 1;
-            result.setErrorLineNumber(errorLineNumber);
+            result.setErrorLineNumber(lineNumber + 1);
             return result;
         }
         StringBuilder sb = new StringBuilder();
@@ -26,8 +28,7 @@ public class InsOperation extends Operation {
         InsColResultDTO keyResult = buildSqlKey(items[2]);
         if (keyResult.getColName() == null
                 && !KeyTypeEnum.AUTO_INCREMENT.getCode().equals(keyResult.getColType())) {
-            Integer errorLineNumber = lineNumber + 1;
-            result.setErrorLineNumber(errorLineNumber);
+            result.setErrorLineNumber( lineNumber + 1);
             return result;
         }
         if (!KeyTypeEnum.AUTO_INCREMENT.getCode().equals(keyResult.getColType())) {
@@ -38,8 +39,7 @@ public class InsOperation extends Operation {
         for (int i = 3; i < items.length; i++) {
             InsColResultDTO colResult = buildSqlCol(items[i]);
             if (colResult.getColName() == null) {
-                Integer errorLineNumber = lineNumber + 1;
-                result.setErrorLineNumber(errorLineNumber);
+                result.setErrorLineNumber(lineNumber + 1);
                 return result;
             }
             sbColName.append(colResult.getColName()).append(", ");
@@ -69,10 +69,9 @@ public class InsOperation extends Operation {
         if (KeyTypeEnum.AUTO_INCREMENT.getCode().equals(keyType)) {
             result.setColType(KeyTypeEnum.AUTO_INCREMENT.getCode());
         } else if (KeyTypeEnum.SNOWFLAKE.getCode().equals(keyType)) {
-            Snowflake snowflake = new Snowflake();
             result.setColType(KeyTypeEnum.SNOWFLAKE.getCode());
             result.setColName(keys[1]);
-            result.setColValue("'" + snowflake.nextIdStr() + "'");
+            result.setColValue("'" + snowflakeGenerator.next() + "'");
         }
         return result;
     }
