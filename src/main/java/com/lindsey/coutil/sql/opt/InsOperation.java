@@ -19,7 +19,7 @@ public class InsOperation extends Operation {
         OperationResultDTO result = new OperationResultDTO();
         // 检验是否有col
         if (items.length < 4) {
-            result.setErrorLineNumber(lineNumber + 1);
+            result.setErrorLineNumber(lineNumber + 2);
             return result;
         }
         StringBuilder sb = new StringBuilder();
@@ -32,7 +32,7 @@ public class InsOperation extends Operation {
         InsColResultDTO keyResult = buildSqlKey(items[2]);
         if (keyResult.getColName() == null
                 && !KeyTypeEnum.AUTO_INCREMENT.getCode().equals(keyResult.getColType())) {
-            result.setErrorLineNumber(lineNumber + 1);
+            result.setErrorLineNumber(lineNumber + 2);
             return result;
         }
         if (!KeyTypeEnum.AUTO_INCREMENT.getCode().equals(keyResult.getColType())) {
@@ -43,7 +43,7 @@ public class InsOperation extends Operation {
         for (int i = 3; i < items.length; i++) {
             InsColResultDTO colResult = buildSqlCol(items[i]);
             if (colResult.getColName() == null) {
-                result.setErrorLineNumber(lineNumber + 1);
+                result.setErrorLineNumber(lineNumber + 2);
                 return result;
             }
             sbColName.append(colResult.getColName()).append(", ");
