@@ -2,6 +2,7 @@ package com.lindsey.coutil.sql;
 
 
 import com.lindsey.coutil.sql.dto.OperationResultDTO;
+import com.lindsey.coutil.sql.enums.ModelTypeEnum;
 import com.lindsey.coutil.sql.enums.OptTypeEnum;
 import com.lindsey.coutil.sql.opt.DelOperation;
 import com.lindsey.coutil.sql.opt.InsOperation;
@@ -36,17 +37,20 @@ public class SqlBatchBuildUtil {
      * @return BuildingResult<Object>
      */
     public static BuildingResult<Object> defaultBuilding() {
-        return building(DEFAULT_FILE_PATH_DATA, DEFAULT_FILE_PATH_SQL);
+        return building(DEFAULT_FILE_PATH_DATA, DEFAULT_FILE_PATH_SQL, ModelTypeEnum.DEFAULT);
     }
 
     /**
+     * TODO 增加支持的模版类型
      * @param dataFilePath String 源数据文件路径
      * @param sqlFilePath  String SQL文件路径
+     * @param modelType    ModelTypeEnum 模版
      * @see com.lindsey.coutil.sql.enums.OptTypeEnum 操作类型
      * @see com.lindsey.coutil.sql.enums.KeyTypeEnum 主键类型
      * @see com.lindsey.coutil.sql.enums.ColTypeEnum 字段类型
+     * @see com.lindsey.coutil.sql.enums.ModelTypeEnum 模版类型
      */
-    public static BuildingResult<Object> building(String dataFilePath, String sqlFilePath) {
+    public static BuildingResult<Object> building(String dataFilePath, String sqlFilePath, ModelTypeEnum modelType) {
         // file_path cannot be empty
         if (StringUtils.isAnyEmpty(dataFilePath, sqlFilePath))
             return BuildingResult.failed("DataFilePath or SqlFilePath is empty!");
